@@ -1,4 +1,5 @@
-import { login, logout, getInfo, as_admin } from '@/api/user'
+/* eslint-disable no-unused-vars */
+import { login, logout, as_admin } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -7,7 +8,8 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
-    is_admin: false
+    is_admin: false,
+    userInfo: undefined
   }
 }
 
@@ -29,6 +31,9 @@ const mutations = {
 
   SET_CHARATER: (state, is_admin) => {
     state.is_admin = is_admin
+  },
+  SET_USERINFO: (state, info) => {
+    state.userInfo = info
   }
 }
 
@@ -37,11 +42,14 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password })
+      login({ name: username.trim(), password: password })
         .then((response) => {
+
           // const { data } = response
-          // commit('SET_TOKEN', data)
-          // setToken(data.token)
+          commit('SET_TOKEN', response.loginId)
+          commit('SET_USERINFO', response.userInfo)
+          console.log(response.userInfo)
+          setToken(response.loginId)
           resolve()
         })
         .catch((error) => {
@@ -69,11 +77,7 @@ const actions = {
 
   // get user info
   getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      commit('SET_NAME', '用户你好')
-      // commit('SET_AVATAR', avatar)
-      resolve('用户你好')
-    })
+    return state.userInfo
   },
 
   // user logout
