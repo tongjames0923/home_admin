@@ -14,7 +14,7 @@
     >
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="user"/>
         </span>
         <el-input
           ref="username"
@@ -29,7 +29,7 @@
 
       <el-form-item prop="password">
         <span class="svg-container">
-          <svg-icon icon-class="password" />
+          <svg-icon icon-class="password"/>
         </span>
         <el-input
           :key="passwordType"
@@ -43,7 +43,7 @@
           @keyup.enter.native="handleLogin"
         />
         <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
       </el-form-item>
 
@@ -52,7 +52,8 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleLogin"
-      >Login</el-button>
+      >Login
+      </el-button>
 
       <div class="tips">
         <span style="margin-right: 20px">username: admin</span>
@@ -83,7 +84,8 @@
         type="primary"
         style="width: 100%; margin-bottom: 30px"
         @click.native.prevent="handleAdminLogin"
-      >Login</el-button>
+      >Login
+      </el-button>
     </el-form>
     <div style="background-color: aliceblue; width:fit-content;margin:0px auto">
       <el-switch
@@ -98,8 +100,7 @@
 </template>
 
 <script>
-import { as_admin } from '@/api/user'
-import { validUsername } from '@/utils/validate'
+import {validUsername} from '@/utils/validate'
 
 export default {
   name: 'Login',
@@ -128,8 +129,8 @@ export default {
         token: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [{required: true, trigger: 'blur', validator: validateUsername}],
+        password: [{required: true, trigger: 'blur', validator: validatePassword}]
       },
       loading: false,
       passwordType: 'password',
@@ -138,7 +139,7 @@ export default {
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect
       },
       immediate: true
@@ -160,7 +161,7 @@ export default {
       this.$store
         .dispatch('user/adminLogin', this.adminLoginForm.token)
         .then(() => {
-          this.$router.push({ path: this.redirect || '/' })
+          this.$router.push({path: this.redirect || '/'})
           this.loading = false
         })
         .catch(() => {
@@ -174,7 +175,7 @@ export default {
           this.$store
             .dispatch('user/login', this.loginForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
+              this.$router.push({path: this.redirect || '/'})
               this.loading = false
             })
             .catch(() => {
