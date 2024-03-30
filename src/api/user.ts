@@ -1,14 +1,28 @@
 import request from "@/utils/request";
+import {AxiosPromise} from "axios";
 
-export function as_admin(token) {
+interface BaseUserInfo {
+  id: number,
+  name: string,
+  phone: string,
+  sex: number
+}
+
+interface LoginResp {
+  loginId: number,
+  userInfo: BaseUserInfo,
+}
+
+
+export function as_admin(token: string) {
   return request({
     url: "admin/adminLogin",
     method: "post",
-    params: { token: token },
+    params: {token: token},
   });
 }
 
-export function login(data) {
+export function login(data: { name: any; password: any; }): AxiosPromise<LoginResp> {
   return request({
     url: "/user/login",
     method: "post",
