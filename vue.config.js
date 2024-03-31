@@ -30,6 +30,16 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === "development",
   productionSourceMap: false,
   devServer: {
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://127.0.0.1:8090/home-money-server/', // 代理接口地址。实际请求接口地址会是：https://api.mz-moe.cn/api/xxx/xxx
+    //     changeOrigin: true, // 默认false，是否需要改变原始主机头为目标URL
+    //     ws: true, // 是否代理websockets
+    //     // pathRewrite: {
+    //     //   '^/api': '', // 重写请求。实际接口中并没有 /api，所以需要替换为空 ''
+    //     // },
+    //   },
+    // },
     port: port,
     open: true,
     overlay: {

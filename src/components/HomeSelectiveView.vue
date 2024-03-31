@@ -1,35 +1,52 @@
-
 <script setup>
-import {listMyHomes} from "@/api/home";
+import {listMyHomes, setHome} from "@/api/home";
 
-export default
-{
+export default {
 
-  props:{
-  },
-  data(){
-    return{
+  props: {},
+  data() {
+    return {
       isShow: false,
       homeList: [],
-      selected: undefined
+      selected: undefined,
+      title:"家庭选择"
     }
   },
   methods: {
     show() {
       listMyHomes().then(res => {
-        this.homeList = res
+        this.homeList = []
+        for (let i = 0; i < res.length; i++) {
+          if (res[i].selected) {
+            this.selected = res[i]
+            this.title="家庭选择:"+this.selected.homeName
+          }
+          this.homeList.push(res[i])
+        }
         console.log(this.homeList)
         this.$forceUpdate()
         this.isShow = true
       })
+    },
+    submitHome() {
+      setHome(this.selected.id).then(() => {
+        this.isShow = false
+        this.$notify({
+            title: '成功',
+            message: '设置家庭组[' + this.selected.homeName + "]成功",
+            type: 'success'
+          }
+        );
+      });
     }
   }
 }
+
 </script>
 <template>
   <div class="home-selection">
     <el-drawer
-      title="家庭选择"
+      :title=title
       :visible.sync="isShow"
       direction="ttb"
       size="50%"
@@ -50,6 +67,7 @@ export default
           </div>
         </el-option>
       </el-select>
+      <el-button round @click="submitHome">确认操作的家庭组</el-button>
     </el-drawer>
   </div>
 </template>
