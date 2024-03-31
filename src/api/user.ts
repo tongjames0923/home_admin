@@ -1,14 +1,13 @@
 import request from "@/utils/request";
-import {AxiosPromise} from "axios";
 
-interface BaseUserInfo {
+export interface BaseUserInfo {
   id: number,
   name: string,
   phone: string,
   sex: number
 }
 
-interface LoginResp {
+export interface LoginResp {
   loginId: number,
   userInfo: BaseUserInfo,
 }
@@ -22,7 +21,15 @@ export function as_admin(token: string) {
   });
 }
 
-export function login(data: { name: any; password: any; }): AxiosPromise<LoginResp> {
+export function myInfo()
+{
+  return request({
+    url:'/user/getMyInfo',
+    method:'get'
+  })
+}
+
+export function login(data: { name: string; password: string; }) {
   return request({
     url: "/user/login",
     method: "post",

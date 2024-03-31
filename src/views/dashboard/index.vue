@@ -9,24 +9,28 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
 import HomeSelectiveView from "@/components/HomeSelectiveView.vue";
 
 export default {
-  name: 'Dashboard',
-  components: {HomeSelectiveView},
-  computed: {
-    ...mapGetters([
-      'userInfo'
-    ])
+  name: "Dashboard",
+  components: { HomeSelectiveView },
+  data() {
+    return {
+      userInfo: undefined,
+    };
+  },
+  mounted() {
+    this.$store.dispatch("user/getInfo").then((res) => {
+      this.userInfo = res;
+      this.$forceUpdate();
+    });
   },
   methods: {
-    select_home()
-    {
+    select_home() {
       this.$refs.home_selector.show();
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
